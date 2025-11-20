@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "The Care map - Sheet1 (3)",
+"features": [
+{ "type": "Feature", "properties": { "Name": " Lake Merritt United Methodist Church", "Description": "This is our Starting point and Ending point. \nThis is also where I first meet Tom, the origanizer of the Lake Lunches. \nsome infor about the church and Tom and other stuff. ", "X": -122.2584248, "Y": 37.7992303, "Category": "", "Image Url": "https://www.lakemerrittumc.org/wp-content/uploads/2025/07/lmumc-logo.png", "Website Url": "", "Note": "" }, "geometry": { "type": "Point", "coordinates": [ -122.2584248, 37.7992303 ] } },
+{ "type": "Feature", "properties": { "Name": "Test point", "Description": "This is typically our first stop. Here is where we met Avon, who also greet us with the best energy and smile. more stories", "X": -122.259415, "Y": 37.797982, "Category": "", "Image Url": "", "Website Url": "", "Note": "" }, "geometry": { "type": "Point", "coordinates": [ -122.259415, 37.797982 ] } }
+]
+}
