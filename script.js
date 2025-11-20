@@ -4,6 +4,8 @@ const path_there_url = "https://raw.githubusercontent.com/emilyma214-alt/thecare
 
 const path_back_url = "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/refs/heads/main/data/path_back_tracks.geojson";
 
+const points_url = "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/refs/heads/main/data/The%20Care%20map%20-%20Sheet1%20(3).geojson";
+
 const styles = [
   'mapbox://styles/omii123/cmi43cczf007101stduel52sx', // your custom style
   'mapbox://styles/omii123/cmi47s77r001q01sthh680xqa'                   // alt base map
@@ -80,11 +82,45 @@ function addRouteLayers() {
       //"line-dasharray": [1.5, 1.5]
     }
   });
+
+  map.addSource("care_points", {
+    type: "geojson",
+    data: points_url
+  });
+
+  map.addLayer({
+    id: "care_points_circle",
+    type: "circle",
+    source: "care_points",
+    paint: {
+      "circle-radius": 6,
+      "circle-color": "#872d11",
+      "circle-stroke-width": 2,
+      "circle-stroke-color": "#ffffff"
+    }
+  });
 }
 
 // first time: when map loads
 map.on("load", () => {
   addRouteLayers();
+
+  map.on("click", "care_points_circle", (e) => {
+    const feature = e.features[0];
+    const props = feature.properties;
+
+    const html = `
+      <strong>${props.Name || "Location"}</strong><br/>
+      ${props.Description || ""}
+    `;
+
+    new mapboxgl.Popup()
+      .setLngLat(feature.geometry.coordinates)
+      .setHTML(html)
+      .addTo(map);
+  });
+
+
 });
 
 // 🔘 basemap toggle button
