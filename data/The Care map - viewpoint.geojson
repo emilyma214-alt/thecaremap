@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"name": "The Care map - Sheet2",
+"features": [
+{ "type": "Feature", "properties": { "Name": "1", "X": -122.258297, "Y": 37.799367, "Image_A": "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoints/IMG_4615.jpeg", "Image_B": "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoints/IMG_4284.jpg", "Image_C": "" }, "geometry": { "type": "Point", "coordinates": [ -122.258297, 37.799367 ] } },
+{ "type": "Feature", "properties": { "Name": "2", "X": -122.260713, "Y": 37.799027, "Image_A": "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoints/IMG_4287.jpg", "Image_B": "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoints/IMG_4288.jpg", "Image_C": "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoints/IMG_4289.jpg" }, "geometry": { "type": "Point", "coordinates": [ -122.260713, 37.799027 ] } },
+{ "type": "Feature", "properties": { "Name": "3", "X": -122.26117, "Y": 37.802822, "Image_A": "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoints/IMG_4621.jpeg", "Image_B": "", "Image_C": "" }, "geometry": { "type": "Point", "coordinates": [ -122.26117, 37.802822 ] } },
+{ "type": "Feature", "properties": { "Name": "4", "X": -122.261419, "Y": 37.8033, "Image_A": "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoints/IMG_4620.jpeg", "Image_B": "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoints/IMG_4619.jpeg", "Image_C": "" }, "geometry": { "type": "Point", "coordinates": [ -122.261419, 37.8033 ] } },
+{ "type": "Feature", "properties": { "Name": "5", "X": -122.264252, "Y": 37.800703, "Image_A": "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoints/IMG_2224.jpg", "Image_B": "", "Image_C": "" }, "geometry": { "type": "Point", "coordinates": [ -122.264252, 37.800703 ] } },
+{ "type": "Feature", "properties": { "Name": "6", "X": -122.2625414, "Y": 37.8009474, "Image_A": "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoints/IMG_4293.jpg", "Image_B": "", "Image_C": "" }, "geometry": { "type": "Point", "coordinates": [ -122.2625414, 37.8009474 ] } }
+]
+}
