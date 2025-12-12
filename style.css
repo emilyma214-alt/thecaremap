@@ -162,7 +162,7 @@ h1 {
   margin: 0 0 4px 0;
   font-size: 16px;
   font-weight: 700;
-  color: #65210c;  
+  color: #65210c;  /* your warm brown */
 }
 
 .popup-short {
@@ -213,12 +213,12 @@ h1 {
 
 .viewpoint-images {
   display: flex;
-  gap: 6px; 
+  gap: 6px;             /* space between images */
   margin-top: 6px;
 }
 
 .viewpoint-images img {
-  width: 160px;   
+  width: 160px;         /* or smaller if you want */
   height: auto;
   border-radius: 6px;
   object-fit: cover;
@@ -260,7 +260,7 @@ h1 {
 .legend-title {
   font-weight: 600;
   margin-bottom: 6px;
-  color: #65210c; 
+  color: #65210c; /* your warm brown */
 }
 
 .legend-item {
@@ -273,7 +273,7 @@ h1 {
   margin-left: 6px;
 }
 
-
+/* Circle symbols (match your map colors) */
 
 .legend-circle {
   width: 12px;
@@ -298,7 +298,7 @@ h1 {
 }
 
 .legend-icon {
-  width: 16px;
+  width: 16px;      /* adjust size as you like */
   height: 16px;
   margin-right: 6px;
   object-fit: contain;
@@ -359,3 +359,51 @@ h1 {
 }
 
 
+/* Mobile*/
+@media (max-width: 768px) {
+
+  /* Info panel */
+  #info-box {
+    width: calc(100% - 20px);
+    max-width: none;
+    left: 10px;
+    top: 10px;
+    font-size: 0.85rem;
+  }
+
+  #info-body .subtitle,
+  #info-body .information {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  /* Popup text */
+  .popup-title {
+    font-size: 1rem;
+  }
+
+  .popup-short,
+  .popup-long {
+    font-size: 0.8rem;
+  }
+
+  /* Legend + credit + audio box */
+  #legend,
+  #credit-box,
+  #audio-section {
+    font-size: 0.7rem;
+    padding: 6px 8px;
+  }
+
+  #audio-section button,
+  #interview-button {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+  }
+
+  /* Make sure the map has enough room */
+  #map {
+    /* if you set a fixed height, ensure it's tall enough on phones */
+    min-height: 60vh;
+  }
+}
