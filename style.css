@@ -162,7 +162,7 @@ h1 {
   margin: 0 0 4px 0;
   font-size: 16px;
   font-weight: 700;
-  color: #65210c;  /* your warm brown */
+  color: #65210c;  
 }
 
 .popup-short {
@@ -213,12 +213,12 @@ h1 {
 
 .viewpoint-images {
   display: flex;
-  gap: 6px;             /* space between images */
+  gap: 6px; 
   margin-top: 6px;
 }
 
 .viewpoint-images img {
-  width: 160px;         /* or smaller if you want */
+  width: 160px;   
   height: auto;
   border-radius: 6px;
   object-fit: cover;
@@ -260,7 +260,7 @@ h1 {
 .legend-title {
   font-weight: 600;
   margin-bottom: 6px;
-  color: #65210c; /* your warm brown */
+  color: #65210c; 
 }
 
 .legend-item {
@@ -273,7 +273,7 @@ h1 {
   margin-left: 6px;
 }
 
-/* Circle symbols (match your map colors) */
+
 
 .legend-circle {
   width: 12px;
@@ -298,7 +298,7 @@ h1 {
 }
 
 .legend-icon {
-  width: 16px;      /* adjust size as you like */
+  width: 16px;
   height: 16px;
   margin-right: 6px;
   object-fit: contain;
@@ -357,4 +357,5 @@ h1 {
   background: #f3c2a5;
   color: #65210c;
 }
+
 
