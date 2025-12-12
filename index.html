@@ -20,22 +20,99 @@
 </head>
 
 <body>
-  <h1> 
-    <span class="title-main">The Care Map</span>
-    <br><span class="subtitle">
-    A look at the Thursday route that connects volunteers with neighbors around Lake Merritt. 
-    </span><br>
-    <span class="information">Volunteer Information: Lake Lunches </span>
-    <p class="information"> Lake Merritt United Methodist Church distributes healthy lunches and hygiene supplies on Tuesdays and Thursdays (11:30 - 1:00) to the unsheltered and other individuals in need around the southwest end of Lake Merritt. We go to where people are living with wagons of lunches and other supplies. We provide 400 lunches a week, 20,000 over a year. Additionally, every Tuesday we also provide walk-up bag lunches from the church parking lot at 12:30pm. All lunches are prepared every Monday at 2pm.
-    </p>
-    <p class="information">
-    Click <a href="https://www.lakemerrittumc.org/food-programs/" target="_blank" class="link">here</a> to visit their website.
-      </p>
-  </h1>
-  <button id="basemap-toggle">Switch basemap</button>
-  <div id="map"></div>
+  <div id="info-box">
+    <div id="info-header">
+      <span class="title-main">The Care Map</span>
+      <button id="info-toggle" aria-expanded="true" title="Hide description">−</button>
+    </div>
 
+    <div id="info-body">
+      <p class="subtitle">
+        <strong>The Thursday Volunteer Route through a volunteer's eyes.</strong>
+      </p>
+
+      <p class="subtitle">
+        <strong>Volunteer Information:</strong> Lake Lunches
+      </p>
+      <div class="info-image">
+          <img 
+            src="https://www.lakemerrittumc.org/wp-content/uploads/2025/07/lmumc-logo.png"
+            alt="Lake Merritt UMC Logo"
+          />
+        </div>
+      <p class="information">
+        Lake Merritt United Methodist Church distributes healthy lunches and hygiene supplies
+        on Tuesdays and Thursdays (11:30 – 1:00) to the unsheltered and other individuals
+        in need around the southwest end of Lake Merritt. We go to where people are living
+        with wagons of lunches and other supplies. We provide 400 lunches a week, 20,000
+        over a year. Additionally, every Tuesday we also provide walk-up bag lunches from
+        the church parking lot at 12:30pm. All lunches are prepared every Monday at 2pm.
+      </p>
+
+      <p class="information">
+        Click
+        <a href="https://www.lakemerrittumc.org/food-programs/"
+           target="_blank"
+           class="link">here</a>
+        to visit their website.
+      </p>
+    </div>
+  </div>
+    <div id="legend">
+  <div class="legend-title">Legend</div>
+
+  <div class="legend-item">
+    <span class="legend-line legend-line-route"></span>
+    <span class="legend-label">Route (there & back)</span>
+  </div>
+
+  <div class="legend-item">
+    <span class="legend-circle legend-start-end"></span>
+    <span class="legend-label">Start & End</span>
+  </div>
+
+  <div class="legend-item">
+    <span class="legend-circle legend-main-stop"></span>
+    <span class="legend-label">Main Stop</span>
+  </div>
+
+  <div class="legend-item">
+    <span class="legend-circle legend-small-stop"></span>
+    <span class="legend-label">Small Stop</span>
+  </div>
+
+  <div class="legend-item">
+    <img
+      class="legend-icon"
+      src="https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoint.png"
+      alt="Viewpoint icon"
+    />
+    <span class="legend-label">Viewpoint photos</span>
+  </div>
+</div>
+
+
+  <div id="credit-box">
+      <p><strong>Created by:</strong> Emily Ma<br>
+      <strong>Year:</strong> 2025<br>
+      <strong>Thanks to:</strong> Lake Merritt United Methodist Church - Food Distribution Center and Tom
+    </p>
+  </div>
+
+  <div id="audio-section">
+    <button id="interview-button">
+      ▶ Listen to Tom talk about Lake Lunches
+    </button>
+    <audio id="tom-audio" src="audio/Tom-Interview.mp3"></audio>
+  </div>
+
+
+
+  <button id="basemap-toggle">Click to Switch basemap</button>
+  <div id="map"></div>
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
   <script src="script.js"></script>
+
+  
 </body>
 </html>
