@@ -363,7 +363,7 @@ h1 {
 
   /* Info panel */
   #info-box {
-    width: calc(100% - 50px);
+    width: 85%;
     max-width: none;
     left: 10px;
     top: 10px;
@@ -403,4 +403,5 @@ h1 {
     min-height: 60vh;
   }
 }
+
 
