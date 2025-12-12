@@ -25,7 +25,6 @@ const map = new mapboxgl.Map({
 });
 
 function addRouteLayers() {
-  // avoid duplicates if style already has sources/layers with these ids
   if (map.getSource('path_there')) return;
 
   // THERE path
@@ -101,19 +100,18 @@ function addRouteLayers() {
       "circle-color": [
       "match",
       ["get", "Category"],
-      "Start and End", "#872d11",   // deep brown
-      "Main Stop",   "#1a2358",     // navy
-      "Small Stop",  "#5d67a1",     // soft peach
-      /* other / default*/  "#aaaaaa"
+      "Start and End", "#872d11",   
+      "Main Stop",   "#1a2358",    
+      "Small Stop",  "#5d67a1",     
+      "#aaaaaa"
     ],
-    //size by Category if you want
     "circle-radius": [
       "match",
       ["get", "Category"],
       "Start and End", 8,
       "Main Stop",     7,
       "Small Stop",    5,
-      /* default */    5
+       5
     ],
     "circle-stroke-width": 2,
     "circle-stroke-color": "#ffffff"
@@ -122,28 +120,22 @@ function addRouteLayers() {
 }
 
 function addViewpointLayers() {
-  // avoid duplicates if style already has this source
   if (map.getSource("viewpoints")) return;
 
-  // load the custom icon image from GitHub
   map.loadImage(viewpoint_icon_url, (error, image) => {
     if (error) {
       console.error("Error loading viewpoint icon:", error);
       return;
     }
 
-    // add the image to the style (if not already added)
     if (!map.hasImage("viewpoint-icon")) {
       map.addImage("viewpoint-icon", image);
     }
 
-    // add GeoJSON source for viewpoints
     map.addSource("viewpoints", {
       type: "geojson",
       data: viewpoints_url
     });
-
-    // add symbol layer using the custom icon
 
     map.addLayer({
       id: "viewpoints_base",
@@ -167,65 +159,72 @@ function addViewpointLayers() {
       }
     });
 
-    // set up hover popup with a larger image
+    // 👉 shared popup helper
     let vpPopup;
+    const isTouch =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
-    map.on("mouseenter", "viewpoints_symbol", (e) => {
-      map.getCanvas().style.cursor = "pointer";
-
+    function showViewpointPopup(e) {
       const feature = e.features[0];
-      const coords = feature.geometry.coordinates.slice();
-      const props = feature.properties || {};
-      const name = props.Name || "Viewpoint";
+      const coords  = feature.geometry.coordinates.slice();
+      const props   = feature.properties || {};
+      const name    = props.Name || "Viewpoint";
 
-      const imgA = props.Image_A?.trim() || "";
-      const imgB = props.Image_B?.trim() || "";
-      const imgC = props.Image_C?.trim() || "";
+      const imgA = (props.Image_A || "").trim();
+      const imgB = (props.Image_B || "").trim();
+      const imgC = (props.Image_C || "").trim();
 
-      let imagesHTML = "";
+      const imgs = [imgA, imgB, imgC].filter(Boolean);
+      const imgCount = imgs.length || 1;
+      const popupWidth = Math.max(170, 170 * imgCount);
 
-      [imgA, imgB, imgC].forEach(url => {
-        if (url && url !== "") {
-          imagesHTML += `<img src="${url}" class="vp-img" />`;
-        }
-      });
+      const vhtml = `
+        <div class="viewpoint-popup" style="width:${popupWidth}px">
+          <h3 class="vp-title">${name}</h3>
+          <div class="viewpoint-images">
+            ${imgA ? `<img src="${imgA}" />` : ""}
+            ${imgB ? `<img src="${imgB}" />` : ""}
+            ${imgC ? `<img src="${imgC}" />` : ""}
+          </div>
+        </div>
+      `;
 
-      const imgCount = [imgA, imgB, imgC].filter(u => u).length;
-
-          // Each image roughly ~150px wide including gap
-          let popupWidth = 170 * imgCount;
-          if (popupWidth < 170) popupWidth = 170;  // minimum size
-
-          // Add inline width to container div
-          const vhtml = `
-            <div class="viewpoint-popup" style="width:${popupWidth}px">
-              <h3 class="vp-title">${name}</h3>
-              <div class="viewpoint-images">
-                ${imgA ? `<img src="${imgA}" />` : ""}
-                ${imgB ? `<img src="${imgB}" />` : ""}
-                ${imgC ? `<img src="${imgC}" />` : ""}
-              </div>
-            </div>
-          `;
-
+      if (vpPopup) vpPopup.remove();
 
       vpPopup = new mapboxgl.Popup({
-            closeButton: false,
-            offset: 12,
-            className: "viewpoint-popup"
-          })
+        closeButton: true,
+        offset: 12,
+        className: "viewpoint-popup"
+      })
         .setLngLat(coords)
         .setHTML(vhtml)
         .addTo(map);
-    });
+    }
 
-    map.on("mouseleave", "viewpoints_symbol", () => {
-      map.getCanvas().style.cursor = "";
+    function hideViewpointPopup() {
       if (vpPopup) {
         vpPopup.remove();
         vpPopup = null;
       }
-    });
+    }
+
+    if (isTouch) {
+      // 📱 mobile/tablet: use tap/click
+      map.on("click", "viewpoints_symbol", (e) => {
+        showViewpointPopup(e);
+      });
+    } else {
+      // 🖥 desktop: keep hover behavior
+      map.on("mouseenter", "viewpoints_symbol", (e) => {
+        map.getCanvas().style.cursor = "pointer";
+        showViewpointPopup(e);
+      });
+
+      map.on("mouseleave", "viewpoints_symbol", () => {
+        map.getCanvas().style.cursor = "";
+        hideViewpointPopup();
+      });
+    }
   });
 }
 
@@ -278,7 +277,7 @@ map.on("load", () => {
 });
 
 
-// 🔘 basemap toggle button
+// basemap toggle button
 const toggleBtn = document.getElementById('basemap-toggle');
 
 toggleBtn.addEventListener('click', () => {
