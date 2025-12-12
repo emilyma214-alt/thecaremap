@@ -4,11 +4,15 @@ const path_there_url = "https://raw.githubusercontent.com/emilyma214-alt/thecare
 
 const path_back_url = "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/refs/heads/main/data/path_back_tracks.geojson";
 
-const points_url = "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/refs/heads/main/data/The%20Care%20map%20-%20Sheet1%20(3).geojson";
+const points_url = "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/refs/heads/main/data/Locations.geojson";
+
+const viewpoints_url = "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/refs/heads/main/data/viewpoints.geojson";
+
+const viewpoint_icon_url = "https://raw.githubusercontent.com/emilyma214-alt/thecaremap/main/photos/viewpoint.png";
 
 const styles = [
-  'mapbox://styles/omii123/cmi43cczf007101stduel52sx', // your custom style
-  'mapbox://styles/omii123/cmi47s77r001q01sthh680xqa'                   // alt base map
+  'mapbox://styles/omii123/cmi47s77r001q01sthh680xqa', 
+  'mapbox://styles/omii123/cmi43cczf007101stduel52sx'                  // alt base map
 ];
 
 let currentStyleIndex = 0;
@@ -88,30 +92,173 @@ function addRouteLayers() {
     data: points_url
   });
 
+
   map.addLayer({
     id: "care_points_circle",
     type: "circle",
     source: "care_points",
     paint: {
-      "circle-radius": 6,
-      "circle-color": "#872d11",
-      "circle-stroke-width": 2,
-      "circle-stroke-color": "#ffffff"
+      "circle-color": [
+      "match",
+      ["get", "Category"],
+      "Start and End", "#872d11",   // deep brown
+      "Main Stop",   "#1a2358",     // navy
+      "Small Stop",  "#5d67a1",     // soft peach
+      /* other / default*/  "#aaaaaa"
+    ],
+    //size by Category if you want
+    "circle-radius": [
+      "match",
+      ["get", "Category"],
+      "Start and End", 8,
+      "Main Stop",     7,
+      "Small Stop",    5,
+      /* default */    5
+    ],
+    "circle-stroke-width": 2,
+    "circle-stroke-color": "#ffffff"
     }
   });
 }
 
+function addViewpointLayers() {
+  // avoid duplicates if style already has this source
+  if (map.getSource("viewpoints")) return;
+
+  // load the custom icon image from GitHub
+  map.loadImage(viewpoint_icon_url, (error, image) => {
+    if (error) {
+      console.error("Error loading viewpoint icon:", error);
+      return;
+    }
+
+    // add the image to the style (if not already added)
+    if (!map.hasImage("viewpoint-icon")) {
+      map.addImage("viewpoint-icon", image);
+    }
+
+    // add GeoJSON source for viewpoints
+    map.addSource("viewpoints", {
+      type: "geojson",
+      data: viewpoints_url
+    });
+
+    // add symbol layer using the custom icon
+
+    map.addLayer({
+      id: "viewpoints_base",
+      type: "circle",
+      source: "viewpoints",
+      paint:{
+        'circle-color': "#decccc",
+        'circle-radius': 7.5,
+        'circle-opacity': 0.8
+      }
+    });
+
+    map.addLayer({
+      id: "viewpoints_symbol",
+      type: "symbol",
+      source: "viewpoints",
+      layout: {
+        "icon-image": "viewpoint-icon",
+        "icon-size": 0.11,
+        "icon-allow-overlap": true
+      }
+    });
+
+    // set up hover popup with a larger image
+    let vpPopup;
+
+    map.on("mouseenter", "viewpoints_symbol", (e) => {
+      map.getCanvas().style.cursor = "pointer";
+
+      const feature = e.features[0];
+      const coords = feature.geometry.coordinates.slice();
+      const props = feature.properties || {};
+      const name = props.Name || "Viewpoint";
+
+      const imgA = props.Image_A?.trim() || "";
+      const imgB = props.Image_B?.trim() || "";
+      const imgC = props.Image_C?.trim() || "";
+
+      let imagesHTML = "";
+
+      [imgA, imgB, imgC].forEach(url => {
+        if (url && url !== "") {
+          imagesHTML += `<img src="${url}" class="vp-img" />`;
+        }
+      });
+
+      const imgCount = [imgA, imgB, imgC].filter(u => u).length;
+
+          // Each image roughly ~150px wide including gap
+          let popupWidth = 170 * imgCount;
+          if (popupWidth < 170) popupWidth = 170;  // minimum size
+
+          // Add inline width to container div
+          const vhtml = `
+            <div class="viewpoint-popup" style="width:${popupWidth}px">
+              <h3 class="vp-title">${name}</h3>
+              <div class="viewpoint-images">
+                ${imgA ? `<img src="${imgA}" />` : ""}
+                ${imgB ? `<img src="${imgB}" />` : ""}
+                ${imgC ? `<img src="${imgC}" />` : ""}
+              </div>
+            </div>
+          `;
+
+
+      vpPopup = new mapboxgl.Popup({
+            closeButton: false,
+            offset: 12,
+            className: "viewpoint-popup"
+          })
+        .setLngLat(coords)
+        .setHTML(vhtml)
+        .addTo(map);
+    });
+
+    map.on("mouseleave", "viewpoints_symbol", () => {
+      map.getCanvas().style.cursor = "";
+      if (vpPopup) {
+        vpPopup.remove();
+        vpPopup = null;
+      }
+    });
+  });
+}
+
+
 // first time: when map loads
 map.on("load", () => {
   addRouteLayers();
-
+  addViewpointLayers();
+  // popup on click
   map.on("click", "care_points_circle", (e) => {
     const feature = e.features[0];
     const props = feature.properties;
 
+    const name      = props["Name"] || "Location";
+    const shortDesc = props["Short_Description"] || "";
+    const Desc_1  = props["Description_1"] || "";
+    const Desc_2  = props["Description_2"] || "";
+    const img1      = (props["Image_1"] || "").trim();
+    const img2      = (props["image_2"] || "").trim();
+
+    
+  
+// ${imagesHtml ? `<div class="popup-images">${imagesHtml}</div>` : ""}
     const html = `
-      <strong>${props.Name || "Location"}</strong><br/>
-      ${props.Description || ""}
+      <div class="popup-content">
+        <h3 class="popup-title">${name}</h3>
+        ${shortDesc ? `<p class="popup-short">${shortDesc}</p>` : ""}
+        ${Desc_1 ? `<p class="popup-long">${Desc_1}</p>` : ""}
+        ${props.Image_1 ? `<img class="popup-image" src="${props.Image_1}" />` : ""}
+        
+        ${Desc_2 ? `<p class="popup-long">${Desc_2}</p>` : ""}
+        ${props.image_2 ? `<img class="popup-image" src="${props.image_2}" />` : ""}
+      </div>
     `;
 
     new mapboxgl.Popup()
@@ -120,8 +267,16 @@ map.on("load", () => {
       .addTo(map);
   });
 
+  // change cursor on hover
+  map.on("mouseenter", "care_points_circle", () => {
+    map.getCanvas().style.cursor = "pointer";
+  });
 
+  map.on("mouseleave", "care_points_circle", () => {
+    map.getCanvas().style.cursor = "";
+  });
 });
+
 
 // 🔘 basemap toggle button
 const toggleBtn = document.getElementById('basemap-toggle');
@@ -136,5 +291,44 @@ toggleBtn.addEventListener('click', () => {
   // when new style finishes loading, re-add the routes
   map.once('style.load', () => {
     addRouteLayers();
+    addViewpointLayers();
   });
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const infoBox   = document.getElementById("info-box");
+  const infoBody  = document.getElementById("info-body");
+  const infoToggle = document.getElementById("info-toggle");
+
+  if (infoBox && infoBody && infoToggle) {
+    infoToggle.addEventListener("click", () => {
+      const isCollapsed = infoBox.classList.toggle("collapsed");
+      infoToggle.textContent = isCollapsed ? "+" : "−";
+      infoToggle.setAttribute("aria-expanded", String(!isCollapsed));
+      infoToggle.title = isCollapsed ? "Show description" : "Hide description";
+    });
+  }
+  const audioEl = document.getElementById("tom-audio");
+  const btnEl   = document.getElementById("interview-button");
+
+  if (audioEl && btnEl) {
+    btnEl.addEventListener("click", () => {
+      if (audioEl.paused) {
+        audioEl.play().catch(err => {
+        console.error("Audio play error:", err);
+      });
+        btnEl.textContent = "⏸ Pause Tom's interview";
+      } else {
+        audioEl.pause();
+        btnEl.textContent = "▶ Listen to Tom talk about Lake Lunches";
+      }
+    });
+
+    // when audio finishes, reset button text
+    audioEl.addEventListener("ended", () => {
+      btnEl.textContent = "▶ Listen to Tom talk about Lake Lunches";
+    });
+  }
+  
 });
