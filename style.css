@@ -339,7 +339,7 @@ h1 {
 
 #interview-button {
   position: absolute; 
-  bottom: 500px;
+  bottom: 240px;
   left: 10px;
   margin-top: 6px;
   padding: 6px 10px;
@@ -357,3 +357,4 @@ h1 {
   background: #f3c2a5;
   color: #65210c;
 }
+
