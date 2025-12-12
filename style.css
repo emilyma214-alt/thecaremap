@@ -106,7 +106,7 @@ h1 {
 
 
 .title-main {
-  -webkit-text-stroke: 1.5px #f3c2a5;  /* stroke color */
+  -webkit-text-stroke: 1.5px #f3c2a5; 
     color: rgb(143, 57, 57);
     font-size: 40px;
     font-weight: 700;
@@ -118,10 +118,10 @@ h1 {
 }
 
 .info-image img {
-  width: 240px;           /* adjust size here */
+  width: 240px;           
   height: auto;
-  border-radius: 10px;    /* optional cute rounded edges */
-  opacity: 0.95;          /* soft, blends into UI */
+  border-radius: 10px;    
+  opacity: 0.95;      
 }
 
 .subtitle {
@@ -162,7 +162,7 @@ h1 {
   margin: 0 0 4px 0;
   font-size: 16px;
   font-weight: 700;
-  color: #65210c;  /* your warm brown */
+  color: #65210c;  
 }
 
 .popup-short {
@@ -213,12 +213,12 @@ h1 {
 
 .viewpoint-images {
   display: flex;
-  gap: 6px;             /* space between images */
+  gap: 6px;   
   margin-top: 6px;
 }
 
 .viewpoint-images img {
-  width: 160px;         /* or smaller if you want */
+  width: 160px;         
   height: auto;
   border-radius: 6px;
   object-fit: cover;
@@ -260,7 +260,7 @@ h1 {
 .legend-title {
   font-weight: 600;
   margin-bottom: 6px;
-  color: #65210c; /* your warm brown */
+  color: #65210c; 
 }
 
 .legend-item {
@@ -273,7 +273,6 @@ h1 {
   margin-left: 6px;
 }
 
-/* Circle symbols (match your map colors) */
 
 .legend-circle {
   width: 12px;
@@ -364,7 +363,7 @@ h1 {
 
   /* Info panel */
   #info-box {
-    width: calc(100% - 20px);
+    width: calc(100% - 50px);
     max-width: none;
     left: 10px;
     top: 10px;
@@ -387,7 +386,6 @@ h1 {
     font-size: 0.8rem;
   }
 
-  /* Legend + credit + audio box */
   #legend,
   #credit-box,
   #audio-section {
@@ -401,9 +399,8 @@ h1 {
     padding: 4px 8px;
   }
 
-  /* Make sure the map has enough room */
   #map {
-    /* if you set a fixed height, ensure it's tall enough on phones */
     min-height: 60vh;
   }
 }
+
